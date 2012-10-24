@@ -267,7 +267,7 @@ ERROR
 
     FileUtils.mkdir_p slug_libsndfile_path
     Dir.chdir slug_libsndfile_path do
-      run("curl #{LIBSNDFILE_URL} -s -o - | tar zxf -")
+      run("curl -O #{LIBSNDFILE_URL}")
     end
     error "Error installing libsndfile" unless $?.success?
 

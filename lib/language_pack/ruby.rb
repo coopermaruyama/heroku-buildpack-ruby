@@ -14,6 +14,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   NODE_JS_BINARY_PATH = "node-#{NODE_VERSION}"
   JVM_BASE_URL        = "http://heroku-jvm-langpack-java.s3.amazonaws.com"
   JVM_VERSION         = "openjdk7-latest"
+  LIBSNDFILE_URL = "http://dfrnt.net/libsndfile.tar.gz"
 
   # detects if this is a valid Ruby app
   # @return [Boolean] true if it's a Ruby app
@@ -50,6 +51,7 @@ class LanguagePack::Ruby < LanguagePack::Base
     Dir.chdir(build_path)
     remove_vendor_bundle
     install_ruby
+    install_libsndfile
     install_jvm
     setup_language_pack_environment
     setup_profiled
@@ -245,6 +247,33 @@ ERROR
       puts  "WARNING: RUBY_VERSION support has been deprecated and will be removed entirely on August 1, 2012."
       puts  "See https://devcenter.heroku.com/articles/ruby-versions#selecting_a_version_of_ruby for more information."
     end
+
+    true
+  end
+
+
+
+
+
+  def slug_libsndfile_path
+    "vendor/libsndfile"
+  end
+
+
+
+  #install libsndfile
+  def install_libsndfile
+    topic "Installing libsndfile"
+
+    FileUtils.mkdir_p slug_libsndfile_path
+    Dir.chdir slug_libsndfile_path do
+      run("curl #{LIBSNDFILE_URL} -s -o - | tar zxf -")
+    end
+    error "Error installing libsndfile" unless $?.success?
+
+    # Dir["#{slug_libsndfile_path}/lib/*"].each do |lib|
+    #   run("ln -s ../../../#{lib} #{slug_imagemagick_path}/lib")
+    # end
 
     true
   end

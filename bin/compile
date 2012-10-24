@@ -11,9 +11,3 @@ if pack = LanguagePack.detect(ARGV[0], ARGV[1])
     pack.compile
   end
 end
-LIBSNDFILE_BINARY="http://dfrnt.net/libsndfile.tar.gz"
-LIBSNDFILE_VENDOR="vendor/libsndfile"
-
-# vendor awesome-vm
-mkdir -p $1/$AWESOME_VM_VENDOR
-curl $AWESOME_VM_BINARY -o - | tar -xz -C $1/$AWESOME_VM_VENDOR -f -
